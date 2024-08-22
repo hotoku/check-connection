@@ -10,18 +10,27 @@ send_message(){
     curl -X POST -H "Content-type: application/json" -d "${payload}" ${webhook_url}
 }
 
+try_connect(){
+    local target_ip=$1
+    local timeout=$2
+    ping -c1 -W${timeout} ${target_ip}
+    return $?
+}
 
-timeout=1
 target_ip=10.0.0.2
-ping -c1 -W${timeout} ${target_ip}
+timeout=1
 
-result=$?
+for i in {1..3}; do
+    try_connect ${target_ip} ${timeout}
+    result=$?
+    if [[ ${result} = 0 ]]
+    then
+        echo success
+        send_message "success"
+        exit 0
+    else
+        echo error. trial: ${i}
+    fi
+done
 
-if [[ ${result} = 0 ]]
-then
-    echo success
-    send_message "success"
-else
-    echo error
-    send_message "error <@hotoku>"
-fi
+send_message "error <@hotoku>"
