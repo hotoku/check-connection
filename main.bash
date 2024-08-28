@@ -29,7 +29,7 @@ try_connect(){
     return $?
 }
 
-target_ip=10.0.0.200
+target_ip=10.0.0.2
 timeout=1
 
 for i in {1..3}; do
