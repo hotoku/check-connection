@@ -19,7 +19,8 @@ incoming webhook 用の URL が必要。[ドキュメント](https://api.slack.c
 
 ```json
 {
-  "url": "取得したURL"
+  "logs": "https://hooks.slack.com/services/XXXXXX",
+  "warnings": "https://hooks.slack.com/services/XXXXXX"
 }
 ```
 
